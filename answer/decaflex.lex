@@ -153,9 +153,9 @@ T_INTCONSTANT ({hex_lit}|{decimal_lit})
 %{
   //char literals!
 %}
+escaped_char \\[\\nrtvfab\'"]
 ch_const_body ({char}|{escaped_char})
 T_CHARCONSTANT "'"{ch_const_body}"'"
-escaped_char \\[\\nrtvfab\'"]
 %{
 //string literals!
 %}
@@ -170,10 +170,10 @@ T_STRINGCONSTANT \"{str_const_body}\"
 E_STRING_UNKNOWN_ESCAPE \"{str_const_body}\\[^{escaped_char}]
 E_STRING_NEWLINE \"{str_const_body}\xA{str_const_body}\"
 E_STRING_NO_CLOSING \"
-E_CHAR_LENGTH "'"{ch_const_body}{ch_const_body}+"'"
+E_CHAR_LENGTH "'"[{ch_const_body}][{ch_const_body}]+"'"
 E_CHAR_UNTERMINATED "'"
 E_CHAR_ZERO_WIDTH "'""'"
-E_CHARACTER_UNEXPECTED .
+E_CHARACTER_UNEXPECTED [^{char}]
 
 %{
 // Define global variables
@@ -272,14 +272,14 @@ void printError(string errorName);
 {E_STRING_NO_CLOSING} {printError(E_STRING_NO_CLOSING);}
 {E_CHAR_UNTERMINATED} {printError(E_CHAR_UNTERMINATED);}
 {E_STRING_UNKNOWN_ESCAPE} {printError(E_STRING_UNKNOWN_ESCAPE);}
-
+{E_CHAR_LENGTH} {printError(E_CHAR_LENGTH);}
 {E_CHARACTER_UNEXPECTED} {printError(E_CHARACTER_UNEXPECTED);}
 %%
 
 //TODO: uncomment these as they start working
 /*
 
-{E_CHAR_LENGTH} {printError(E_CHAR_LENGTH);}
+
 */
 
 int main(int argv, char* argc[]) {
