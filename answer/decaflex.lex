@@ -153,14 +153,13 @@ T_INTCONSTANT ({hex_lit}|{decimal_lit})
 %{
   //char literals!
 %}
-ch_const_body ({char}|{escaped_char}|{extra_char})
+ch_const_body ({char}|{escaped_char})
 T_CHARCONSTANT "'"{ch_const_body}"'"
-escaped_char \\[nrtvfab\'"]
-extra_char \\\\
+escaped_char \\[\\nrtvfab\'"]
 %{
 //string literals!
 %}
-str_const_body ({stringchar}|{escaped_char}|{extra_char})*
+str_const_body ({stringchar}|{escaped_char})*
 T_STRINGCONSTANT \"{str_const_body}\"
 
 %{
