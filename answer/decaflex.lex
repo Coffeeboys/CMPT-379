@@ -153,14 +153,14 @@ T_INTCONSTANT ({hex_lit}|{decimal_lit})
 %{
   //char literals!
 %}
-ch_const_body ({char}|{escaped_char})
+ch_const_body ({char}|{escaped_char}|{extra_char})
 T_CHARCONSTANT "'"{ch_const_body}"'"
 escaped_char \\[nrtvfab\'"]
-
+extra_char \\\\
 %{
 //string literals!
 %}
-str_const_body ({stringchar}|{escaped_char})*
+str_const_body ({stringchar}|{escaped_char}|{extra_char})*
 T_STRINGCONSTANT \"{str_const_body}\"
 
 %{
@@ -168,7 +168,7 @@ T_STRINGCONSTANT \"{str_const_body}\"
 //TODO: make these work properly!
 //Note: CHAR_UNTERMINATED and STRING_NO_CLOSING work because lex is greedy and will try to scan for all char/string literal matches first. If it can't match these, it'll match the errors instead.
 %}
-E_STRING_UNKNOWN_ESCAPE SOME_ERROR_1
+E_STRING_UNKNOWN_ESCAPE \"{str_const_body}\\[^{escaped_char}]
 E_STRING_NEWLINE \"{str_const_body}\xA{str_const_body}\"
 E_STRING_NO_CLOSING \"
 E_CHAR_LENGTH "'"{ch_const_body}{ch_const_body}+"'"
@@ -272,12 +272,16 @@ void printError(string errorName);
 
 {E_STRING_NO_CLOSING} {printError(E_STRING_NO_CLOSING);}
 {E_CHAR_UNTERMINATED} {printError(E_CHAR_UNTERMINATED);}
+{E_STRING_UNKNOWN_ESCAPE} {printError(E_STRING_UNKNOWN_ESCAPE);}
+
+{E_CHARACTER_UNEXPECTED} {printError(E_CHARACTER_UNEXPECTED);}
 %%
 
 //TODO: uncomment these as they start working
-/*{E_CHAR_LENGTH} {printError(E_CHAR_LENGTH);}
-{E_STRING_UNKNOWN_ESCAPE} {printError(E_STRING_UNKNOWN_ESCAPE);}
-{E_CHARACTER_UNEXPECTED} {printError(E_CHARACTER_UNEXPECTED);}*/
+/*
+
+{E_CHAR_LENGTH} {printError(E_CHAR_LENGTH);}
+*/
 
 int main(int argv, char* argc[]) {
     yylex();
