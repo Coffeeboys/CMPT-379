@@ -76,7 +76,7 @@ decimal_digit [0-9]
 hex_digit [0-9A-Fa-f]
 digit [0-9]
 
-T_COMMENT "//".*
+T_COMMENT "//".*\xA
 
 newline \n
 carriage_return \r
@@ -169,7 +169,7 @@ T_STRINGCONSTANT \"{str_const_body}\"
 //Note: CHAR_UNTERMINATED and STRING_NO_CLOSING work because lex is greedy and will try to scan for all char/string literal matches first. If it can't match these, it'll match the errors instead.
 %}
 E_STRING_UNKNOWN_ESCAPE SOME_ERROR_1
-E_STRING_NEWLINE SOME_ERROR_2
+E_STRING_NEWLINE \"{str_const_body}\xA{str_const_body}\"
 E_STRING_NO_CLOSING \"
 E_CHAR_LENGTH "'"{ch_const_body}{ch_const_body}+"'"
 E_CHAR_UNTERMINATED "'"
@@ -208,8 +208,23 @@ void printError(string errorName);
 {E_CHAR_ZERO_WIDTH} {printError(E_CHAR_ZERO_WIDTH);}
 
 {T_CHARCONSTANT}    {printToken(T_CHARCONSTANT, yytext);}
-{T_COMMENT}         {printToken(T_COMMENT, yytext);}
+{T_COMMENT}         {
+                        if (yytext[yyleng - 1] == 10) {
+                            int commentLength = yyleng + 1;
+                            char * commentText = new char[commentLength];
+                            for (int i = 0; i < yyleng; i++) {
+                                commentText[i] = yytext[i];
+                            }
+                            commentText[commentLength - 2] = '\\';
+                            commentText[commentLength - 1] = 'n';
+                            printToken(T_COMMENT, commentText);
+                        }
+                        else {
+                            printToken(T_COMMENT, yytext);
+                        }
+                    }
 {T_INTCONSTANT}     {printToken(T_INTCONSTANT, yytext);}
+{E_STRING_NEWLINE}  {printError(E_STRING_NEWLINE);}
 {T_STRINGCONSTANT}  {printToken(T_STRINGCONSTANT, yytext);}
 {T_ID}              {printToken(T_ID, yytext);}
 {T_WHITESPACE}      {
@@ -226,7 +241,6 @@ void printError(string errorName);
                             }
                         }
                         printf("\n");
-
                     }
 
 {T_RSB}             {printToken(T_RSB, yytext);}
@@ -259,13 +273,12 @@ void printError(string errorName);
 {E_STRING_NO_CLOSING} {printError(E_STRING_NO_CLOSING);}
 {E_CHAR_UNTERMINATED} {printError(E_CHAR_UNTERMINATED);}
 %%
-/*
+
 //TODO: uncomment these as they start working
+/*{E_CHAR_LENGTH} {printError(E_CHAR_LENGTH);}
 {E_STRING_UNKNOWN_ESCAPE} {printError(E_STRING_UNKNOWN_ESCAPE);}
-{E_STRING_NEWLINE} {printError(E_STRING_NEWLINE);}
-{E_CHAR_LENGTH} {printError(E_CHAR_LENGTH);}
-{E_CHARACTER_UNEXPECTED} {printError(E_CHARACTER_UNEXPECTED);}
-*/
+{E_CHARACTER_UNEXPECTED} {printError(E_CHARACTER_UNEXPECTED);}*/
+
 int main(int argv, char* argc[]) {
     yylex();
     exit(0);
