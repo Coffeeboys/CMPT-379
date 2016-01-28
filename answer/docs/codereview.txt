@@ -1,0 +1,18 @@
+For Question 1, rmcomments, we have a very succinct, but correct answer.
+ The only way to improve it would be to increase the readability of the regex, but readability was not of high concern.
+
+For Question 2, idtoken;
+  We feel that our answer is both easily readable and correct, and do not see any need for changes.
+
+For Question 3, tokenizer; the same comments as Question 2 can be repeated.
+
+For Question 4, decaflex;
+	Firstly, there is both an inelegancy in some regex, like that for the character and string values, but this is
+	mainly due to the language specification. The definition for comments are also a bit of an eyesore,
+	since we must make sure that it ends with a newline character, as we can only have single line comments.
+	Then, it must be noted that instead of ordering the tokens in an alphabetical order, we had to instead order them
+	in terms of priority so that the input would be cast to tokens correctly, so we order them as follows:
+	keywords -> operators/delimiters -> literals -> character literals -> string literals -> errors.
+	Then, we had to add special cases for dealing with comments and whitespace, as the testcases expected results that
+	we found to be unintuitive. Otherwise, the rest of the program, including handling errors was fairly straightforward
+	and there is not much to explain.
