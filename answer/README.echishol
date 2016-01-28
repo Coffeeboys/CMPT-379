@@ -1,1 +1,21 @@
 Evan Chisholm's README
+
+-Assisted in the solution design for questions 1-3, as they were relatively simple,
+	so we each quickly found the solution to the problems ourselves,
+	while one person implemented them after discussing our approaches
+
+- Worked on regex definitions for the Decaf specification in Q4 with
+	the rest of the group on a Sunday afternoon at Aaryaman's apartment
+
+- Assisted in testing regex definitions using personally made test cases and
+	debugged regex definitions to match expected output for all questions
+
+- Defined additional testcases in answer/testcases/tokenizer
+	and answer/testcases/decaflex , the other questions appeared to have
+	fairly comphrehensive testcases already
+
+- Wrote code review document in answer/docs/codereview.txt
+
+- I feel like I contributed fairly well, though I would have liked to
+	work more on the development of solutions to Q1-3 in addition to
+	the debugging I provided
