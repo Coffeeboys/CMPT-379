@@ -1,0 +1,15 @@
+After reading the 3rd chapter of the dragon book, and going through the yacc/lex tutorial provided, the implementation
+process itself was issue free for the most part, though there was some research needed to learn about the different
+functionalities like yylen.
+
+For developing the regular expressions themselves, the group met on a Saturday night todiscuss the first three problems,
+which we found to be pretty trivial to complete, though had a few small corner cases that needed to be looked at during
+the implementation. On the next day, Sunday, we got together at Aaryaman's apartment and worked on the Decaf lexical
+analyzer according to the provided specification. Though the implementation was a bit more detailed that the previous
+problems, we found that the problem was mainly an extention of them and required a reapplication of the same basic
+principles of generating a regular expression to match a set of symbols, then creating higher regexs to match to more
+detailed tokens like whitespace or comments. All in all, the design took a bit of thinking, but was not so difficult
+that elaborate prototypes were required, as we instead opted to test a proposed regex through handmade tests done by
+running the given question's program while feeding it input from standard input and remarking on if the results were
+correct. Then, after most regex were complete, we took them to the proper test cases to see how we performed.
+After a bit of tweaking, we reached a perfect score on the test cases.
