@@ -164,7 +164,7 @@ T_STRINGCONSTANT \"{str_const_body}\"
 
 %{
 //errors!
-//TODO: make these work properly!
+
 //Note: CHAR_UNTERMINATED and STRING_NO_CLOSING work because lex is greedy and will try to scan for all char/string literal matches first. If it can't match these, it'll match the errors instead.
 %}
 E_STRING_UNKNOWN_ESCAPE \"{str_const_body}\\[^{escaped_char}]
@@ -276,11 +276,6 @@ void printError(string errorName);
 {E_CHARACTER_UNEXPECTED} {printError(E_CHARACTER_UNEXPECTED);}
 %%
 
-//TODO: uncomment these as they start working
-/*
-
-
-*/
 
 int main(int argv, char* argc[]) {
     yylex();
