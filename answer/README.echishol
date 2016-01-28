@@ -14,7 +14,8 @@ Evan Chisholm's README
 	and answer/testcases/decaflex , the other questions appeared to have
 	fairly comphrehensive testcases already
 
-- Wrote code review document in answer/docs/codereview.txt
+- Wrote code review document in answer/docs/codereview.txt and design document
+	in answer/docs/designdoc.txt
 
 - I feel like I contributed fairly well, though I would have liked to
 	work more on the development of solutions to Q1-3 in addition to
