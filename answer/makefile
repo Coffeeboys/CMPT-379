@@ -11,7 +11,7 @@ $(targets): %: %.lex
 	@echo "compiling lex file:" $<
 	@echo "output file:" $@
 	flex -o$@.c $<
-	gcc -o $(bindir)/$@ $@.c -l$(lexlib)
+	gcc -std=c99  -o $(bindir)/$@ $@.c -l$(lexlib)
 	$(rm) $@.c
 
 $(cpptargets): %: %.lex
