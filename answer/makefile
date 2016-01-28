@@ -2,8 +2,8 @@
 lexlib=l
 bindir=.
 rm=/bin/rm -f
-targets=rmcomments idtoken tokenizer leftcontext reject
-cpptargets=bigram decaflex
+targets=rmcomments idtoken tokenizer leftcontext #reject
+cpptargets= decaflex #bigram
 
 all: $(targets) $(cpptargets)
 
@@ -23,4 +23,3 @@ $(cpptargets): %: %.lex
 
 clean:
 	$(rm) $(targets) $(cpptargets)
-
